@@ -13,7 +13,7 @@
             'tag' => _t('标签 %s 下的文章'),
             'author' => _t('%s 发布的文章')
         ), '', ' - '); ?><?php $this->options->title(); ?></title>
-    <link rel="stylesheet" href="<?php $this->options->themeUrl('style.css?v=1.0.0'); ?>">
+    <link rel="stylesheet" href="<?php $this->options->themeUrl('style.css?v=1.0.1'); ?>">
     <link href="https://cdnjs.loli.net/ajax/libs/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
     <link href="https://cdnjs.loli.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" rel="stylesheet"/>
@@ -22,7 +22,7 @@
     <script src="//cdnjscn.b0.upaiyun.com/libs/html5shiv/r29/html5.min.js"></script>
     <script src="//cdnjscn.b0.upaiyun.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-    <script src="<?php $this->options->themeUrl('script.js?v=1.0.0'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('script.js?v=1.0.1'); ?>"></script>
     <script>
         window.kat.options = {
             siteUrl: '<?php $this->options->siteUrl() ?>',
@@ -33,7 +33,7 @@
         }
     </script>
     <script src="https://cdnjs.loli.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <?php $this->header("pingback=&wlw=&xmlrpc=&rss2=&atom=&rss1=&template=&generator="); ?>
+    <?php $this->header("pingback=&wlw=&xmlrpc=&rss2=&atom=&rss1=&template=&generator=&antiSpam=&commentReply="); ?>
 </head>
 <body class="kat light">
 <!--[if lt IE 8]>

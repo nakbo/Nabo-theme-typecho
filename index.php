@@ -4,7 +4,7 @@
  *
  * @package Nabo
  * @author 南博工作室
- * @version 1.0.0
+ * @version 1.0.1
  * @link https://github.com/krait-team/Nabo-theme-typecho
  */
 
@@ -77,7 +77,7 @@ $this->need('navigator.php'); ?>
                     </div>
                     <div class="markdown-body describe">
                         <?= lazyload_filter($this->type == 'dynamic' ?
-                            $this->excerpt : get_summary($this->content)); ?>
+                            $this->content : get_summary($this->content)); ?>
                     </div>
                 </div>
                 <?php if ($this->type != 'dynamic'): ?>

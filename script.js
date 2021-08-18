@@ -22,6 +22,32 @@ window.function.targetAll = function () {
     $(".markdown-body a").attr("target", "_blank");
 }
 
+window.function.friends = function () {
+    let friends_length = window.kat.friends == null ? 0 : window.kat.friends.length;
+    let relations_length = window.kat.relations == null ? 0 : window.kat.relations.length;
+    if (friends_length + relations_length) {
+        $('.comment-author span img').each(function () {
+            let match = false;
+            let src = $(this).attr("src");
+            if (friends_length) {
+                for (let pos = 0; pos < friends_length; pos++) {
+                    if (src.indexOf(window.kat.friends[pos]) !== -1) {
+                        match = true;
+                        $(this).parent().addClass("avatar-by-friend");
+                    }
+                }
+            }
+            if (relations_length && match === false) {
+                for (let pos = 0; pos < relations_length; pos++) {
+                    if (src.indexOf(window.kat.relations[pos]) !== -1) {
+                        $(this).parent().addClass("avatar-by-relation");
+                    }
+                }
+            }
+        });
+    }
+}
+
 window.function.image = function () {
     let able = false;
     $.each(['.markdown-body img', '.comment-content img'], function (i, key) {
@@ -133,7 +159,86 @@ window.function.footer = function () {
 
         // targetAll image owo katex
         window.function.execute(
-            'image', 'targetAll', 'OwO', 'katex'
+            'image', 'targetAll', 'friends', 'OwO', 'katex'
         );
     });
 }
+
+window.function.commentPjax = function (respondId, token) {
+    let respond = document.getElementById(
+        respondId
+    );
+
+    if (respond != null) {
+        let forms = respond.getElementsByTagName('form');
+        if (forms.length) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = '_';
+            input.value = token;
+            forms[0].appendChild(input);
+        }
+    }
+
+    window.TypechoComment = {
+        dom: function (id) {
+            return document.getElementById(id);
+        },
+        create: function (tag, attr) {
+            let el = document.createElement(tag);
+            for (let key in attr) {
+                el.setAttribute(key, attr[key]);
+            }
+            return el;
+        },
+
+        reply: function (cid, coid) {
+            let comment = this.dom(cid),
+                response = this.dom(respondId), input = this.dom('comment-parent'),
+                form = 'form' === response.tagName ? response : response.getElementsByTagName('form')[0],
+                textarea = response.getElementsByTagName('textarea')[0];
+
+            if (null == input) {
+                input = this.create('input', {
+                    'type': 'hidden',
+                    'name': 'parent',
+                    'id': 'comment-parent'
+                });
+                form.appendChild(input);
+            }
+
+            input.setAttribute('value', coid);
+
+            if (null == this.dom('comment-form-place-holder')) {
+                let holder = this.create('div', {
+                    'id': 'comment-form-place-holder'
+                });
+                response.parentNode.insertBefore(holder, response);
+            }
+
+            comment.appendChild(response);
+            this.dom('cancel-comment-reply-link').style.display = '';
+
+            if (null != textarea && 'text' === textarea.name) {
+                textarea.focus();
+            }
+            return false;
+        },
+
+        cancelReply: function () {
+            let response = this.dom(respondId),
+                holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+
+            if (null != input) {
+                input.parentNode.removeChild(input);
+            }
+            if (null == holder) {
+                return true;
+            }
+
+            this.dom('cancel-comment-reply-link').style.display = 'none';
+            holder.parentNode.insertBefore(response, holder);
+            return false;
+        }
+    };
+};

@@ -1,6 +1,5 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
 <div class="comments" id="comments">
-    <?php fixPjaxComment($this) ?>
     <?php $this->comments()->to($comments); ?>
     <?php if ($this->allow('comment')): ?>
         <div id="<?php $this->respondId(); ?>" class="respond">
@@ -43,11 +42,44 @@
     <?php else: ?>
         <div class="comments-notice notice"><?php _e('评论已关闭'); ?></div>
     <?php endif; ?>
+    <script type="text/javascript">
+        (function () {
+            let token = <?= Typecho_Common::shuffleScriptVar(
+                $this->security->getToken(
+                    pjax_url_filter($this->request->getRequestUrl())
+                )); ?>
+            window.function.commentPjax(
+                '<?= $this->respondId; ?>', token
+            );
+        })();
+    </script>
     <?php if ($comments->have()): ?>
         <div class="comments-row">
-            <?php $comments->listComments(); ?>
+            <?php $comments->listComments([
+                'avatarSize' => 64
+            ]); ?>
         </div>
 
         <?php $comments->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>
+    <?php endif; ?>
+    <?php if (isset($this->options->plugins['activated']['Links'])) :
+        $links = $this->db->fetchAll($this->db->select()->from('table.links'));
+        $friends = array();
+        $relations = array();
+        foreach ($links as $link) {
+            if (!empty($link['mail'])) {
+                $friends[] = md5($link['mail']);
+            }
+        }
+        foreach (explode("\n", $this->options->plugin('Links')->relations) as $mail) {
+            if (!empty($mail = trim($mail))) {
+                $relations[] = md5($mail);
+            }
+        }
+        unset($links); ?>
+        <script>
+            window.kat.friends = <?= json_encode($friends); ?>;
+            window.kat.relations = <?= json_encode($relations); ?>;
+        </script>
     <?php endif; ?>
 </div>
