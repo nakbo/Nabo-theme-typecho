@@ -216,9 +216,17 @@ window.function.commentPjax = function (respondId, token) {
                 response.parentNode.insertBefore(holder, response);
             }
 
-            comment.appendChild(response);
-            this.dom('cancel-comment-reply-link').style.display = '';
+            let children = comment.getElementsByClassName(
+                'comment-children'
+            );
 
+            if (children.length) {
+                comment.insertBefore(response, children[0]);
+            } else {
+                comment.appendChild(response);
+            }
+
+            this.dom('cancel-comment-reply-link').style.display = '';
             if (null != textarea && 'text' === textarea.name) {
                 textarea.focus();
             }
@@ -227,7 +235,8 @@ window.function.commentPjax = function (respondId, token) {
 
         cancelReply: function () {
             let response = this.dom(respondId),
-                holder = this.dom('comment-form-place-holder'), input = this.dom('comment-parent');
+                holder = this.dom('comment-form-place-holder'),
+                input = this.dom('comment-parent');
 
             if (null != input) {
                 input.parentNode.removeChild(input);

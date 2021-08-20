@@ -22,17 +22,17 @@ $this->need('navigator.php'); ?>
             <article class="dynamic" itemscope itemtype="http://schema.org/BlogPosting">
                 <div class="twitter">
                     <div class="created">
-                        <time datetime="<?php $dyn->dynamic->created('c'); ?>"
-                              itemprop="datePublished"><?php $dyn->dynamic->created(); ?></time>
+                        <time datetime="<?php $dyn->dynamics->created('c'); ?>"
+                              itemprop="datePublished"><?php $dyn->dynamics->created(); ?></time>
                     </div>
                     <div class="avatar">
-                        <img src="<?php $dyn->dynamic->avatar(100, 'G', 'mm'); ?>" alt="author">
+                        <img src="<?php $dyn->dynamics->avatar(100, 'G', 'mm'); ?>" alt="author">
                     </div>
                     <div class="display">
-                        <div class="name"><?php $dyn->dynamic->screenName(); ?></div>
+                        <div class="name"><?php $dyn->dynamics->screenName(); ?></div>
                     </div>
                     <div class="markdown-body describe">
-                        <?= lazyload_filter($dyn->dynamic->content); ?>
+                        <?= lazyload_filter($dyn->dynamics->content); ?>
                     </div>
                 </div>
             </article>

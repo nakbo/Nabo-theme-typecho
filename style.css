@@ -710,29 +710,40 @@ article .copyright p a {
     padding: 20px 0 0 0;
 }
 
-#comments .comment-list li .comment-reply {
-    display: none;
+#comments .comment-reply {
+    opacity: 0;
 }
 
-#comments .comment-list li:hover > .comment-reply {
-    display: block;
+#comments .comment-list > li:hover > .comment-reply {
+    opacity: 1;
 }
 
-#comments .comment-list li .comment-reply, #comments .comment-list li .cancel-comment-reply {
-    line-height: 20px;
+#comments .comment-list li .comment-reply,
+#comments .comment-list li .cancel-comment-reply {
     position: absolute;
     right: 15px;
     top: 15px;
-    font-size: 0.9rem;
+    padding: 6px 10px;
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #343a40;
+    border: none;
+    border-radius: 8px;
+    -webkit-transition: all .3s ease-out;
+    -moz-transition: all .3s ease-out;
+    transition: all .3s ease-out;
 }
 
-#comments .comment-list li .comment-reply a, #comments .comment-list li .cancel-comment-reply a {
-    transition: all 0.25s;
-    color: #444;
+#comments .comment-list li .comment-reply:hover,
+#comments .comment-list li .cancel-comment-reply:hover {
+    background-color: #4e5254;
 }
 
-#comments .comment-list li .comment-reply a:hover, #comments .comment-list li .cancel-comment-reply a:hover {
-    color: #4a55ee
+#comments .comment-list li .comment-reply a,
+#comments .comment-list li .cancel-comment-reply a {
+    color: white;
 }
 
 #comments .comment-list li .comment-meta {

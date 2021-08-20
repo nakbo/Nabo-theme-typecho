@@ -95,22 +95,22 @@ function get_gravatar($email, $size = 100, $rating = 'G', $default = 'mm')
  */
 function get_post_view($archive)
 {
-    $cid = $archive->cid;
-    if (empty($cid)) {
+    if (empty($cid = $archive->cid)) {
         return 0;
     }
 
     $db = Typecho_Db::get();
     $prefix = $db->getPrefix();
 
-    $data = $db->fetchRow($db->select()->from('table.contents')->where('cid = ?', $cid));
+    $data = $db->fetchRow($db->select()
+        ->from('table.contents')->where('cid = ?', $cid));
     if (!array_key_exists('views', $data)) {
         $db->query('ALTER TABLE `' . $prefix . 'contents` ADD `views` INT(10) DEFAULT 0;');
         return 0;
     }
 
     if ($archive->is('single')) {
-        $data['views'] += 1;
+        $data['views']++;
         $db->query('UPDATE `' . $prefix . 'contents` SET `views` = `views` + 1 WHERE `cid` = ' . $cid . ';');
     }
     return $data['views'];
@@ -124,9 +124,9 @@ function get_post_view($archive)
 function get_post_comment($archive)
 {
     $db = Typecho_Db::get();
-    return $db->fetchAll($db->select()->from('table.comments')->limit('3')->where('cid = ?', $archive->cid)
-        ->where('status = ?', 'approved')->where('type = ?', 'comment')->where('parent = ?', '0')
-        ->order('created', Typecho_Db::SORT_DESC)
+    return $db->fetchAll($db->select()->from('table.comments')
+        ->where("cid = ? AND status = 'approved' AND type = 'comment' AND parent = 0", $archive->cid)
+        ->limit(3)->order('created', Typecho_Db::SORT_DESC)
     );
 }
 
